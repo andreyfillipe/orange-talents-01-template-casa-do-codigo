@@ -1,7 +1,6 @@
 package br.com.zup.casadocodigo.pagamento;
 
 import br.com.zup.casadocodigo.validacao.beanValidations.EstadoPertencePaisValidator;
-import br.com.zup.casadocodigo.validacao.beanValidations.ValidarCpfCnpjValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -14,14 +13,11 @@ import javax.validation.Valid;
 public class PagamentoController {
 
     @Autowired
-    private ValidarCpfCnpjValidator validarCpfCnpjValidator;
-
-    @Autowired
     private EstadoPertencePaisValidator estadoPertencePaisValidator;
 
     @InitBinder
     public void init(WebDataBinder binder) {
-        binder.addValidators(validarCpfCnpjValidator, estadoPertencePaisValidator);
+        binder.addValidators(estadoPertencePaisValidator);
     }
 
     @PostMapping

@@ -1,20 +1,16 @@
 package br.com.zup.casadocodigo.validacao;
 
+import java.util.List;
+
 public class FormResponse {
 
-    private String campo;
-    private String mensagem;
+    private List<String> erros;
 
-    public FormResponse(String campo, String mensagem) {
-        this.campo = campo;
-        this.mensagem = mensagem;
+    public FormResponse(List<String> erros) {
+        this.erros = erros;
     }
 
-    public String getCampo() {
-        return campo;
-    }
-
-    public String getMensagem() {
-        return mensagem;
+    public List<String> getErros() {
+        return erros;
     }
 }

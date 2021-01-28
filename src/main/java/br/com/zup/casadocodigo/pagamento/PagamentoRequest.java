@@ -2,12 +2,8 @@ package br.com.zup.casadocodigo.pagamento;
 
 import br.com.zup.casadocodigo.estado.Estado;
 import br.com.zup.casadocodigo.pais.Pais;
+import br.com.zup.casadocodigo.validacao.beanValidations.CpfCnpj;
 import br.com.zup.casadocodigo.validacao.beanValidations.ExistsId;
-import org.hibernate.validator.constraints.br.CNPJ;
-import org.hibernate.validator.constraints.br.CPF;
-import org.hibernate.validator.internal.constraintvalidators.hv.br.CNPJValidator;
-import org.hibernate.validator.internal.constraintvalidators.hv.br.CPFValidator;
-import org.springframework.util.Assert;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -23,6 +19,7 @@ public class PagamentoRequest {
     @NotBlank
     private String sobrenome;
     @NotBlank
+    @CpfCnpj
     private String documento;
     @NotBlank
     private String endereco;
@@ -56,18 +53,6 @@ public class PagamentoRequest {
 
     public String getDocumento() {
         return documento;
-    }
-
-    public boolean validarDocumento() {
-        Assert.hasLength(documento, "Não realizar validação para documento null");
-
-        CPFValidator cpfValidator = new CPFValidator();
-        cpfValidator.initialize(null);
-
-        CNPJValidator cnpjValidator = new CNPJValidator();
-        cnpjValidator.initialize(null);
-
-        return cpfValidator.isValid(documento, null) || cnpjValidator.isValid(documento, null);
     }
 
     public Long getEstadoId() {

@@ -1,6 +1,7 @@
 package br.com.zup.casadocodigo.validacao.beanValidations;
 
-import org.springframework.util.Assert;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +14,7 @@ public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> 
 
     private String domainAttribute;
     private Class<?> klass;
+
     @PersistenceContext
     private EntityManager manager;
 
@@ -30,7 +32,6 @@ public class ExistsIdValidator implements ConstraintValidator<ExistsId, Object> 
         Query query = manager.createQuery("select 1 from " + klass.getName() + " where " + domainAttribute + " = :value");
         query.setParameter("value", o);
         List<?> list = query.getResultList();
-        Assert.state(list.size() >= 0, "Id não encontrado");
 
         return !list.isEmpty();
     }

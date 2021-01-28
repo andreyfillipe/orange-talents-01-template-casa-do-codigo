@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @RestController
@@ -21,6 +22,7 @@ public class EstadoController {
     private PaisRepository paisRepository;
 
     @PostMapping
+    @Transactional
     public ResponseEntity<Void> salvar(@RequestBody @Valid EstadoRequest request) {
         Estado estado = request.toModel(paisRepository);
         estadoRepository.save(estado);

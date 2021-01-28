@@ -6,13 +6,14 @@ import br.com.zup.casadocodigo.categoria.Categoria;
 import br.com.zup.casadocodigo.categoria.CategoriaRepository;
 import br.com.zup.casadocodigo.validacao.beanValidations.ExistsId;
 import br.com.zup.casadocodigo.validacao.beanValidations.UniqueValue;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.util.Assert;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Optional;
 
 public class LivroRequest {
 
@@ -44,12 +45,14 @@ public class LivroRequest {
     @ExistsId(domainClass = Autor.class, fieldName = "id")
     private Long autorId;
 
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public LivroRequest(@NotBlank String titulo,
                         @NotBlank @Size(max = 500) String resumo,
                         @NotBlank String sumario,
                         @NotNull @Min(20) BigDecimal preco,
                         @NotNull @Min(100) Integer numeroPaginas,
                         @NotBlank String isbn,
+                        @Future @NotNull LocalDate dataPublicacao,
                         @NotNull Long categoriaId,
                         @NotNull Long autorId) {
         this.titulo = titulo;
@@ -58,20 +61,14 @@ public class LivroRequest {
         this.preco = preco;
         this.numeroPaginas = numeroPaginas;
         this.isbn = isbn;
+        this.dataPublicacao = dataPublicacao;
         this.categoriaId = categoriaId;
         this.autorId = autorId;
     }
 
-    public LocalDate getDataPublicacao() {
-        return dataPublicacao;
-    }
-
     public Livro toModel(CategoriaRepository categoriaRepository, AutorRepository autorRepository) {
-        Optional<Categoria> categoria = categoriaRepository.findById(this.categoriaId);
-        Optional<Autor> autor = autorRepository.findById(this.autorId);
-
-        Assert.state(categoria.isPresent(), "Categoria não encontrada");
-        Assert.state(autor.isPresent(), "Autor não encontrado");
+        Categoria categoria = categoriaRepository.findById(this.categoriaId).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST ,"Categoria não encontrada"));
+        Autor autor = autorRepository.findById(this.autorId).orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST ,"Autor não encontrado"));
 
         return new Livro(this.titulo,
                          this.resumo,
@@ -80,7 +77,7 @@ public class LivroRequest {
                          this.numeroPaginas,
                          this.isbn,
                          this.dataPublicacao,
-                         categoria.get(),
-                         autor.get());
+                         categoria,
+                         autor);
     }
 }
