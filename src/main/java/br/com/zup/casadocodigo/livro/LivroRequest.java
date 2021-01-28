@@ -17,32 +17,32 @@ import java.time.LocalDate;
 
 public class LivroRequest {
 
-    @NotBlank
-    @UniqueValue(domainClass = Livro.class, fieldName = "titulo")
+    @NotBlank(message = "O título é obrigatório")
+    @UniqueValue(domainClass = Livro.class, fieldName = "titulo", message = "Já existe livro com este título cadastrado")
     private String titulo;
-    @NotBlank
-    @Size(max = 500)
+    @NotBlank(message = "O resumo é obrigatório")
+    @Size(max = 500, message = "O resumo tem que conter no máximo 500 caracteres")
     private String resumo;
-    @NotBlank
+    @NotBlank(message = "O sumário é obrigatório")
     private String sumario;
-    @NotNull
-    @Min(20)
+    @NotNull(message = "O preço é obrigatório")
+    @Min(value = 20, message = "O preço tem que conter no mínimo 20 caracteres")
     private BigDecimal preco;
-    @NotNull
-    @Min(100)
+    @NotNull(message = "O número de páginas é obrigatório")
+    @Min(value = 100, message = "O número de páginas tem que conter no mínimo 100 caracteres")
     private Integer numeroPaginas;
-    @NotBlank
-    @UniqueValue(domainClass = Livro.class, fieldName = "isbn")
+    @NotBlank(message = "O isbn é obrigatório")
+    @UniqueValue(domainClass = Livro.class, fieldName = "isbn", message = "Já existe livro com este isbn cadastrado")
     private String isbn;
-    @Future
-    @NotNull
+    @NotNull(message = "A data de publicação é obrigatório")
+    @Future(message = "A data de publicação tem que ser maior que a data atual")
     @JsonFormat(pattern = "dd/MM/yyyy", shape = JsonFormat.Shape.STRING)
     private LocalDate dataPublicacao;
-    @NotNull
-    @ExistsId(domainClass = Categoria.class, fieldName = "id")
+    @NotNull(message = "A categoria é obrigatório")
+    @ExistsId(domainClass = Categoria.class, fieldName = "id", message = "A categoria informada não existe")
     private Long categoriaId;
-    @NotNull
-    @ExistsId(domainClass = Autor.class, fieldName = "id")
+    @NotNull(message = "O Autor é obrigatório")
+    @ExistsId(domainClass = Autor.class, fieldName = "id", message = "O autor informado não existe")
     private Long autorId;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)

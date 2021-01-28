@@ -7,8 +7,8 @@ import javax.validation.constraints.NotBlank;
 
 public class CategoriaRequest {
 
-    @NotBlank
-    @UniqueValue(domainClass = Categoria.class, fieldName = "nome")
+    @NotBlank(message = "O nome é obrigadotório")
+    @UniqueValue(domainClass = Categoria.class, fieldName = "nome", message = "Já existe categoria com este nome cadastrado")
     private String nome;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)

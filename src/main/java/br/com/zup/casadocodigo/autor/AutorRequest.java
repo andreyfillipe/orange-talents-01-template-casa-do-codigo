@@ -8,14 +8,14 @@ import javax.validation.constraints.Size;
 
 public class AutorRequest {
 
-    @NotBlank
+    @NotBlank(message = "O nome é obrigatório")
     private String nome;
-    @NotBlank
-    @Email
-    @UniqueValue(domainClass = Autor.class, fieldName = "email")
+    @NotBlank(message = "O email é obrigatório")
+    @Email(message = "Formato de email inválido")
+    @UniqueValue(domainClass = Autor.class, fieldName = "email", message = "Já existe autor com este email cadastrado")
     private String email;
-    @NotBlank
-    @Size(max = 400)
+    @NotBlank(message = "A descrição é obrigatório")
+    @Size(max = 400, message = "A descrição tem que conter no máximo 400 caracteres")
     private String descricao;
 
     public AutorRequest(@NotBlank String nome, @NotBlank @Email String email, @NotBlank @Size(max = 400) String descricao) {

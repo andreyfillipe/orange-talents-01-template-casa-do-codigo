@@ -12,11 +12,11 @@ import javax.validation.constraints.NotNull;
 
 public class EstadoRequest {
 
-    @NotBlank
-    @UniqueValue(domainClass = Estado.class, fieldName = "nome")
+    @NotBlank(message = "O nome é obrigatório")
+    @UniqueValue(domainClass = Estado.class, fieldName = "nome", message = "Já existe estado com este nome cadastrado")
     private String nome;
-    @NotNull
-    @ExistsId(domainClass = Pais.class, fieldName = "id")
+    @NotNull(message = "O país é obrigatório")
+    @ExistsId(domainClass = Pais.class, fieldName = "id", message = "O país informado não existe")
     private Long paisId;
 
     public EstadoRequest(@NotBlank String nome, @NotNull Long paisId) {

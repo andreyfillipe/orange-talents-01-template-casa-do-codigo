@@ -7,8 +7,8 @@ import javax.validation.constraints.NotBlank;
 
 public class PaisRequest {
 
-    @NotBlank
-    @UniqueValue(domainClass = Pais.class, fieldName = "nome")
+    @NotBlank(message = "O nome é obrigatório")
+    @UniqueValue(domainClass = Pais.class, fieldName = "nome", message = "Já existe país com este nome cadastrado")
     private String nome;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)

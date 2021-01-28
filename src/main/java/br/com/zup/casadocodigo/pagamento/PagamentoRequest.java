@@ -11,30 +11,30 @@ import javax.validation.constraints.NotNull;
 
 public class PagamentoRequest {
 
-    @NotBlank
-    @Email
+    @NotBlank(message = "O email é obrigatório")
+    @Email(message = "Formato de email inválido")
     private String email;
-    @NotBlank
+    @NotBlank(message = "O nome é obrigatório")
     private String nome;
-    @NotBlank
+    @NotBlank(message = "O sobrenome é obrigatório")
     private String sobrenome;
-    @NotBlank
-    @CpfCnpj
+    @NotBlank(message = "O documento é obrigatório")
+    @CpfCnpj(message = "CPF/CNPJ inválido")
     private String documento;
-    @NotBlank
+    @NotBlank(message = "O endereço é obrigatório")
     private String endereco;
-    @NotBlank
+    @NotBlank(message = "O complemento é obrigatório")
     private String complemento;
-    @NotBlank
+    @NotBlank(message = "A cidade é obrigatório")
     private String cidade;
-    @NotBlank
+    @NotBlank(message = "O telefone é obrigatório")
     private String telefone;
-    @NotBlank
+    @NotBlank(message = "O cep é obrigatório")
     private String cep;
-    @ExistsId(domainClass = Estado.class, fieldName = "id")
+    @ExistsId(domainClass = Estado.class, fieldName = "id", message = "O estado informado não existe")
     private Long estadoId;
-    @NotNull
-    @ExistsId(domainClass = Pais.class, fieldName = "id")
+    @NotNull(message = "O País é obrigatório")
+    @ExistsId(domainClass = Pais.class, fieldName = "id", message = "O país informado não existe")
     private Long paisId;
 
     public PagamentoRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome, @NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento, @NotBlank String cidade, @NotBlank String telefone, @NotBlank String cep, Long estadoId, @NotNull Long paisId) {
